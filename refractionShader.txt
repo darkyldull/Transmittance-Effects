@@ -1,0 +1,16 @@
+#version 330
+out vec4 FragColor;
+
+in vec3 normal;
+in vec3 position;
+
+uniform mat4 view;
+uniform samplerCube skybox;
+
+void main()
+{
+    float index = 1.0/1.7;
+    vec3 refraction= refract(normalize(position), normalize(normal), index);
+    refraction= vec3(inverse(view) * vec4(refraction, 0.0));
+    FragColor = texture(skybox, refraction);
+}
